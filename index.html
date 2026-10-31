@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polli Towers — 3D Skyscraper of AI-Run Companies on Pollinations Agents</title>
+    <meta name="description" content="Explore a 3D tower of AI-run companies where every floor is run by one human founder and a team of Pollinations managed agents, with Bring Your Own Pollen (BYOP)." />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/@pollinations/ui@0.1.0-alpha.20/dist/connect.js"></script>
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-cube">PT</div>
+            <div>
+                <h1>Polli Towers</h1>
+                <p>3D Skyscraper of AI-Run Companies · Powered by <a href="https://pollinations.ai/?ref=badge" target="_blank" rel="noopener">pollinations.ai</a> Managed Agents (`community/*` &amp; `/account/agents`)</p>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.65rem;flex-wrap:wrap;">
+            <span id="live-agent-count" class="badge">Live Registry Connected</span>
+            <span id="auth-badge" class="badge">0-Pollen Visitor Mode</span>
+            <polli-connect app-key="pk_zM4Wvtd1rgWXRmLP" budget="5" expiry="7" models="text"></polli-connect>
+        </div>
+    </header>
+
+    <main class="layout">
+        <!-- Left Column: Interactive 3D Skyscraper & Elevator -->
+        <section class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                <h2 style="margin:0;font-size:1.05rem;">3D Tower Elevator</h2>
+                <div style="display:flex;gap:0.4rem;">
+                    <button id="rot-left" class="btn">⟲ Rotate Left</button>
+                    <button id="rot-right" class="btn">⟳ Rotate Right</button>
+                </div>
+            </div>
+
+            <div class="tower-viewport">
+                <div id="tower-scene" class="tower-scene"></div>
+            </div>
+
+            <p style="font-size:0.8rem;color:var(--muted);margin:0.75rem 0 0;">
+                Click any floor in the 3D tower to ride the elevator, inspect the AI agent roster, review daily deliverables, or run a live Pollinations shift.
+            </p>
+        </section>
+
+        <!-- Right Column: Active Company Floor Dashboard & Founder Decision Queue -->
+        <section class="card">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:1rem;flex-wrap:wrap;">
+                <div>
+                    <h2 id="floor-title" style="margin:0;">Floor 05 · Atrium Macro &amp; Signal Desk</h2>
+                    <p id="floor-meta" style="margin:0.25rem 0 0;font-size:0.84rem;color:var(--muted);">
+                        Human Founder: @aurora_quant · Sector: Algorithmic Research &amp; Risk Briefing
+                    </p>
+                </div>
+                <a href="./agent.json" download="tower-venture-ops.agent.json" class="btn">Download Floor `agent.json`</a>
+            </div>
+
+            <h3 style="font-size:0.9rem;margin:1rem 0 0.4rem;color:#cbd5e1;">Pollinations Managed Agent Roster (`gen.pollinations.ai/v1/models`)</h3>
+            <div id="floor-agents" class="agent-grid"></div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.75rem;">
+                <div>
+                    <label for="floor-brief" style="display:block;font-size:0.78rem;color:var(--muted);margin-bottom:0.25rem;">Company Floor Operating Brief</label>
+                    <input id="floor-brief" type="text" style="width:100%;padding:0.55rem;border-radius:8px;border:1px solid var(--border);background:#080d19;color:var(--text);" />
+                </div>
+                <div>
+                    <label for="founder-directive" style="display:block;font-size:0.78rem;color:var(--muted);margin-bottom:0.25rem;">Founder Shift Directive</label>
+                    <input id="founder-directive" type="text" placeholder="e.g. Prepare Q4 launch checklist & risk memo…" style="width:100%;padding:0.55rem;border-radius:8px;border:1px solid var(--border);background:#080d19;color:var(--text);" />
+                </div>
+            </div>
+
+            <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.8rem;">
+                <button id="btn-live-shift" class="btn btn-amber">Run Live Pollinations Agent Shift (BYOP)</button>
+                <button id="btn-sim-shift" class="btn">Simulate Shift (0 Pollen)</button>
+            </div>
+
+            <!-- Human Founder Decision Inbox -->
+            <div class="decision-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem;">
+                    <strong id="deliverable-title" style="color:#fde68a;">Q4 Compute &amp; Energy Bottleneck Brief</strong>
+                    <span id="decision-status" class="badge">Awaiting Founder Sign-Off</span>
+                </div>
+                <p id="deliverable-summary" style="font-size:0.86rem;margin:0.45rem 0;color:#e2e8f0;"></p>
+                <div style="font-size:0.84rem;margin-top:0.5rem;">
+                    <strong>Escalated to Human Founder:</strong> <span id="decision-question"></span>
+                </div>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.65rem;">
+                    <button id="btn-decide-approve" class="btn btn-teal">✔ Approve</button>
+                    <button id="btn-decide-request" class="btn">↻ Request Revision</button>
+                    <button id="btn-decide-hold" class="btn">⏸ Hold</button>
+                </div>
+            </div>
+
+            <div id="shift-log" class="shift-log">
+                <div><strong>[Tower Telemetry]</strong> Connected to Pollinations Managed Agent catalog. Select any floor or click <em>Simulate Shift (0 Pollen)</em> / <em>Run Live Pollinations Agent Shift (BYOP)</em>.</div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div>
+            <a href="https://pollinations.ai/?ref=badge" target="_blank" rel="noopener">
+                <img src="https://raw.githubusercontent.com/pollinations/pollinations/main/packages/ui/src/brand/badge-made-with.svg" alt="Made with pollinations.ai" height="28" />
+            </a>
+        </div>
+        <div>
+            Built for <a href="https://github.com/pollinations/pollinations/issues/17999" target="_blank" rel="noopener">Pollinations Quest #17999</a> · Agent Alpha Feedback: <a href="https://github.com/pollinations/pollinations/issues/18862" target="_blank" rel="noopener">Issue #18862</a> &amp; <a href="https://github.com/pollinations/pollinations/pull/18863" target="_blank" rel="noopener">PR #18863</a> · Powered by <a href="https://pollinations.ai" target="_blank" rel="noopener">Pollinations.ai</a>
+        </div>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
