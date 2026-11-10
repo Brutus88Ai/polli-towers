@@ -18,14 +18,14 @@ const TOWER_FLOORS = [
         brief: "Design and launch your own AI-run company floor backed by a Pollinations Prompt Agent (`/account/agents` or `community/*`).",
         agents: [
             {
-                role: "Venture Architect",
-                modelId: "community/Marcus-Mok-GH/pt-venture-architect",
-                specialty: "Business model & pitch synthesis",
+                role: "Leasing Officer",
+                modelId: "community/Marcus-Mok-GH/pt-leasing",
+                specialty: "Floor leasing & tenant onboarding",
             },
             {
-                role: "Ops Automator",
-                modelId: "community/Marcus-Mok-GH/pt-ops-automator",
-                specialty: "Workflow & SOP compilation",
+                role: "Orbit Recruiter",
+                modelId: "community/Marcus-Mok-GH/pt-orbit",
+                specialty: "Venture talent & agent recruiting",
             },
         ],
         lastDeliverable: {
@@ -47,14 +47,14 @@ const TOWER_FLOORS = [
         brief: "Synthesize macro catalysts, supply-chain bottlenecks, and volatility guardrails into daily desk notes.",
         agents: [
             {
-                role: "Chief Strategist",
-                modelId: "community/xiaotian1171/atrium-strategist",
+                role: "Northwind Analyst",
+                modelId: "community/Marcus-Mok-GH/pt-northwind",
                 specialty: "Macro thesis & scenario trees",
             },
             {
-                role: "Risk Auditor",
-                modelId: "community/xiaotian1171/atrium-risk",
-                specialty: "Drawdown & tail-risk stress tests",
+                role: "Copperline Bookkeeper",
+                modelId: "community/Marcus-Mok-GH/pt-copperline",
+                specialty: "Drawdown & capital allocation auditing",
             },
         ],
         lastDeliverable: {
@@ -76,13 +76,13 @@ const TOWER_FLOORS = [
         brief: "Craft launch narratives, landing page copy, and visual art direction for indie developer tools.",
         agents: [
             {
-                role: "Creative Director",
-                modelId: "community/pollinations-ai/floret",
+                role: "Emberforge Director",
+                modelId: "community/Marcus-Mok-GH/pt-emberforge",
                 specialty: "Visual storytelling & campaign concepts",
             },
             {
-                role: "Editorial Lead",
-                modelId: "community/Marcus-Mok-GH/pt-copy-chief",
+                role: "Lantern Media Writer",
+                modelId: "community/Marcus-Mok-GH/pt-lantern",
                 specialty: "Technical launch essays & release notes",
             },
         ],
@@ -105,14 +105,14 @@ const TOWER_FLOORS = [
         brief: "Compose adaptive synthwave and ambient cues for indie game studios with clean stem metadata.",
         agents: [
             {
-                role: "Lead Composer",
-                modelId: "community/pollinations-ai/midijourney",
-                specialty: "Adaptive MIDI & harmonic progressions",
+                role: "Fieldnote Researcher",
+                modelId: "community/Marcus-Mok-GH/pt-fieldnote",
+                specialty: "Adaptive research & procedural composition",
             },
             {
-                role: "Catalog Curator",
-                modelId: "community/tomdacatto/tower-sound-curator",
-                specialty: "Tempo tagging & loop point verification",
+                role: "Tidepool Pricing Agent",
+                modelId: "community/Marcus-Mok-GH/pt-tidepool",
+                specialty: "Dynamic catalog & licensing verification",
             },
         ],
         lastDeliverable: {
@@ -134,13 +134,13 @@ const TOWER_FLOORS = [
         brief: "Audit API endpoints, verify OpenAPI schemas, and publish copy-pasteable BYOP integration templates.",
         agents: [
             {
-                role: "Docs & SDK Guide",
-                modelId: "community/pollinations-ai/polli",
-                specialty: "Pollinations API & MCP integration support",
+                role: "Quietloop Reviewer",
+                modelId: "community/Marcus-Mok-GH/pt-quietloop",
+                specialty: "Contract & spec compliance review",
             },
             {
-                role: "QA Spec Inspector",
-                modelId: "community/tomdacatto/tower-qa-lead",
+                role: "Harbor Health Triage",
+                modelId: "community/Marcus-Mok-GH/pt-harbor",
                 specialty: "Schema validation & edge-case reproduction",
             },
         ],
@@ -164,7 +164,7 @@ const TOWER_FLOORS = [
         agents: [
             {
                 role: "Tower Concierge",
-                modelId: "community/pollinations-ai/polli",
+                modelId: "community/Marcus-Mok-GH/pt-lobby",
                 specialty: "Directory routing & BYOP onboarding",
             },
         ],
@@ -266,6 +266,26 @@ async function init() {
     renderTower3D();
     selectFloor(1); // Start on Floor 05 Atrium Macro Desk
 
+    // Listen on the <polli-connect> element itself for the 'change' event and expose .apiKey
+    const connectWidget = document.querySelector("polli-connect");
+    if (connectWidget) {
+        const syncKeyFromWidget = () => {
+            const key = connectWidget.apiKey;
+            if (key) {
+                client.setToken(key);
+            } else {
+                client.setToken(null);
+            }
+            updateAuthBadge();
+        };
+
+        connectWidget.addEventListener("change", syncKeyFromWidget);
+        if (connectWidget.apiKey) {
+            syncKeyFromWidget();
+        }
+    }
+
+    // Defensive fallback for custom dispatch events
     document.addEventListener("polli-connect", (e) => {
         const key = e.detail?.key || e.detail?.apiKey || e.detail?.token;
         if (key) {
