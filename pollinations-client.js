@@ -10,7 +10,7 @@
 
 export const POLLINATIONS_API_BASE = "https://gen.pollinations.ai";
 export const POLLINATIONS_ENTER_BASE = "https://enter.pollinations.ai";
-export const APP_CLIENT_ID = "pk_zM4Wvtd1rgWXRmLP";
+export const APP_CLIENT_ID = "pk_MGURr39qJEnVNdW5";
 
 const STORAGE_KEY = "polli_towers_byop_token";
 
